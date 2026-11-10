@@ -1,0 +1,27 @@
+node_modules/
+dist/
+backend/.venv/
+backend/data/*.db
+__pycache__/
+
+# Environment secrets
+.env
+.env.*
+!.env.example
+# Local databases and business data
+*.db
+*.sqlite
+*.sqlite3
+# Python generated files and environments
+*.py[cod]
+.pytest_cache/
+.venv/
+# JavaScript dependencies and build output
+*.tsbuildinfo
+# Local backups and temporary files
+backup*/
+**/*backup*
+*.bak
+*.bak_*
+*.backup*
+.DS_Store
