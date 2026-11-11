@@ -264,7 +264,7 @@ export default function App(){
   <div className="formgrid" style={{marginTop:18}}>
    <div><label className="fieldlabel">Shop / Business Name</label><input maxLength={200} placeholder="Enter business name" value={gstSettings.business_name} onChange={e=>setGstSettings({...gstSettings,business_name:e.target.value})}/></div>
    <div><label className="fieldlabel">Mobile Number</label><input maxLength={30} placeholder="Business contact number" value={gstSettings.business_mobile} onChange={e=>setGstSettings({...gstSettings,business_mobile:e.target.value})}/></div>
-   <div style={{gridColumn:"1 / -1"}}><label className="fieldlabel">Business Address</label><textarea rows={2} style={{width:"100%",boxSizing:"border-box"}} placeholder="Registered / shop address" value={gstSettings.business_address} onChange={e=>setGstSettings({...gstSettings,business_address:e.target.value})}/></div>
+   <div style={{gridColumn:"1 / -1"}}><label className="fieldlabel">Business Address</label><textarea rows={4} style={{width:"100%",boxSizing:"border-box",minHeight:104,padding:"12px 14px",borderRadius:10,lineHeight:1.5,resize:"vertical"}} placeholder="Enter shop / building, street, area, city, state and PIN code" value={gstSettings.business_address} onChange={e=>setGstSettings({...gstSettings,business_address:e.target.value})}/></div>
   </div>
   <div style={{marginTop:16}}>
    <label style={{display:"inline-flex",width:"fit-content",alignItems:"center",gap:8,fontWeight:600,cursor:"pointer",whiteSpace:"nowrap"}}><input style={{width:16,height:16,margin:0,flex:"0 0 auto"}} type="checkbox" checked={gstSettings.enabled} onChange={e=>setGstSettings({...gstSettings,enabled:e.target.checked})}/> <span>Enable GST for this business</span></label>
