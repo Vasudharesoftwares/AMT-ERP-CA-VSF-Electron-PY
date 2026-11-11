@@ -1,4 +1,4 @@
-from sqlalchemy import String, Integer, Float, DateTime, ForeignKey, Text
+from sqlalchemy import String, Integer, Float, DateTime, ForeignKey, Text, Boolean
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from datetime import datetime
 from .database import Base
@@ -21,6 +21,9 @@ class Product(Base):
     sku: Mapped[str] = mapped_column(String(80), unique=True, index=True)
     unit: Mapped[str] = mapped_column(String(30), default="pcs")
     selling_price: Mapped[float] = mapped_column(Float, default=0)
+    gst_applicable: Mapped[bool] = mapped_column(Boolean, default=False)
+    gst_rate: Mapped[float] = mapped_column(Float, default=0)
+    hsn_code: Mapped[str] = mapped_column(String(20), default="")
     stock_qty: Mapped[float] = mapped_column(Float, default=0)
 
 class Invoice(Base):
@@ -31,6 +34,13 @@ class Invoice(Base):
     invoice_date: Mapped[str] = mapped_column(String(10))
     subtotal: Mapped[float] = mapped_column(Float)
     discount: Mapped[float] = mapped_column(Float, default=0)
+    gst_enabled: Mapped[bool] = mapped_column(Boolean, default=False)
+    customer_state_code: Mapped[str] = mapped_column(String(2), default="")
+    company_state_code: Mapped[str] = mapped_column(String(2), default="")
+    cgst_total: Mapped[float] = mapped_column(Float, default=0)
+    sgst_total: Mapped[float] = mapped_column(Float, default=0)
+    igst_total: Mapped[float] = mapped_column(Float, default=0)
+    gst_total: Mapped[float] = mapped_column(Float, default=0)
     grand_total: Mapped[float] = mapped_column(Float)
     paid_amount: Mapped[float] = mapped_column(Float, default=0)
     notes: Mapped[str] = mapped_column(Text, default="")
@@ -48,6 +58,15 @@ class InvoiceLine(Base):
     quantity: Mapped[float] = mapped_column(Float)
     rate: Mapped[float] = mapped_column(Float)
     amount: Mapped[float] = mapped_column(Float)
+    gst_applicable: Mapped[bool] = mapped_column(Boolean, default=False)
+    gst_rate: Mapped[float] = mapped_column(Float, default=0)
+    hsn_code: Mapped[str] = mapped_column(String(20), default="")
+    taxable_amount: Mapped[float] = mapped_column(Float, default=0)
+    cgst_amount: Mapped[float] = mapped_column(Float, default=0)
+    sgst_amount: Mapped[float] = mapped_column(Float, default=0)
+    igst_amount: Mapped[float] = mapped_column(Float, default=0)
+    gst_amount: Mapped[float] = mapped_column(Float, default=0)
+    total_amount: Mapped[float] = mapped_column(Float, default=0)
 
 class Vendor(Base):
     __tablename__ = "vendors"
@@ -67,6 +86,14 @@ class Purchase(Base):
     vendor_invoice_no: Mapped[str] = mapped_column(String(80), default="")
     purchase_date: Mapped[str] = mapped_column(String(10))
     subtotal: Mapped[float] = mapped_column(Float, default=0)
+    gst_enabled: Mapped[bool] = mapped_column(Boolean, default=False)
+    supplier_state_code: Mapped[str] = mapped_column(String(2), default="")
+    company_state_code: Mapped[str] = mapped_column(String(2), default="")
+    cgst_total: Mapped[float] = mapped_column(Float, default=0)
+    sgst_total: Mapped[float] = mapped_column(Float, default=0)
+    igst_total: Mapped[float] = mapped_column(Float, default=0)
+    gst_total: Mapped[float] = mapped_column(Float, default=0)
+    grand_total: Mapped[float] = mapped_column(Float, default=0)
     paid_amount: Mapped[float] = mapped_column(Float, default=0)
     notes: Mapped[str] = mapped_column(Text, default="")
     created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
@@ -84,7 +111,15 @@ class PurchaseLine(Base):
     quantity: Mapped[float] = mapped_column(Float)
     rate: Mapped[float] = mapped_column(Float)
     amount: Mapped[float] = mapped_column(Float)
-
+    gst_applicable: Mapped[bool] = mapped_column(Boolean, default=False)
+    gst_rate: Mapped[float] = mapped_column(Float, default=0)
+    hsn_code: Mapped[str] = mapped_column(String(20), default="")
+    taxable_amount: Mapped[float] = mapped_column(Float, default=0)
+    cgst_amount: Mapped[float] = mapped_column(Float, default=0)
+    sgst_amount: Mapped[float] = mapped_column(Float, default=0)
+    igst_amount: Mapped[float] = mapped_column(Float, default=0)
+    gst_amount: Mapped[float] = mapped_column(Float, default=0)
+    total_amount: Mapped[float] = mapped_column(Float, default=0)
 
 class StockMovement(Base):
     __tablename__ = "stock_movements"
@@ -95,3 +130,15 @@ class StockMovement(Base):
     quantity: Mapped[float] = mapped_column(Float)
     note: Mapped[str] = mapped_column(Text, default="")
     created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+
+
+
+class GSTSettings(Base):
+    __tablename__ = "gst_settings"
+    id: Mapped[int] = mapped_column(primary_key=True)
+    enabled: Mapped[bool] = mapped_column(Boolean, default=False)
+    gstin: Mapped[str] = mapped_column(String(15), default="")
+    state_code: Mapped[str] = mapped_column(String(2), default="")
+    business_name: Mapped[str] = mapped_column(String(200), default="")
+    business_address: Mapped[str] = mapped_column(Text, default="")
+    business_mobile: Mapped[str] = mapped_column(String(30), default="")

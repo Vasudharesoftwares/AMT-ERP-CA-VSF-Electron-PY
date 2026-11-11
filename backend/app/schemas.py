@@ -15,7 +15,9 @@ class ProductIn(BaseModel):
     unit: str = "pcs"
     selling_price: float = Field(ge=0)
     stock_qty: float = Field(ge=0)
-
+    gst_applicable: bool = False
+    gst_rate: float = Field(default=0, ge=0, le=28)
+    hsn_code: str = ""
 
 class ProductUpdate(BaseModel):
     name: str = Field(min_length=1, max_length=160)
@@ -23,6 +25,9 @@ class ProductUpdate(BaseModel):
     unit: str = "pcs"
     selling_price: float = Field(ge=0)
     stock_qty: float = Field(ge=0)
+    gst_applicable: bool = False
+    gst_rate: float = Field(default=0, ge=0, le=28)
+    hsn_code: str = ""
 
 class InvoiceLineIn(BaseModel):
     product_id: int
@@ -35,6 +40,8 @@ class InvoiceIn(BaseModel):
     discount: float = Field(default=0, ge=0)
     paid_amount: float = Field(default=0, ge=0)
     notes: str = ""
+    gst_enabled: bool = False
+    customer_state_code: str = ""
     lines: list[InvoiceLineIn] = Field(min_length=1)
 
 class CustomerOut(CustomerIn):
@@ -69,4 +76,13 @@ class PurchaseIn(BaseModel):
     purchase_date: str
     paid_amount: float = Field(default=0, ge=0)
     notes: str = ""
+    supplier_state_code: str = ""
     lines: list[PurchaseLineIn] = Field(min_length=1)
+
+class GSTSettingsIn(BaseModel):
+    enabled: bool = False
+    gstin: str = ""
+    state_code: str = ""
+    business_name: str = ""
+    business_address: str = ""
+    business_mobile: str = ""
